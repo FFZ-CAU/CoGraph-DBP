@@ -3,7 +3,7 @@
   "shared_training": {
     "seed": 525,
     "split_seed": 525,
-    "component_analysis_fold": 3,
+    "fold": 3,
     "max_len": 1000,
     "k": 25,
     "epochs": 25,
@@ -60,7 +60,7 @@
     },
     "structure": {
       "level": "protein score",
-      "optimizer": "L-BFGS-B with deterministic damped-Newton refinement on the identical convex objective",
+      "optimizer": "L-BFGS-B with damped-Newton refinement",
       "route_statistic": "five-fold train-only OOF AUC from all graph-summary features",
       "route_threshold": 0.75,
       "anchor_rule": "contact-only when OOF AUC >= 0.75; otherwise sequence-only",

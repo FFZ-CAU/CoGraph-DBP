@@ -39,8 +39,8 @@ graph_features/
   {Train-1698,Train-2104,Test-997,Test-296}.csv
 ```
 
-Each PKL file is a dictionary mapping a protein ID to `(sequence, label, length)`;
-the binary labels are 1 for DBPs and 0 otherwise. Load PKL files from trusted sources.
+Each PKL file is a dictionary mapping a protein ID to `(sequence, label, length)`.
+The label is 1 for DBPs and 0 otherwise.
 ProtT5 and ESM2 residue arrays have 1024 and 1280 channels, respectively. Relation
 arrays are square matrices aligned to the residue arrays. Graph-summary CSV files
 contain `name` and the 19 columns defined in `training/structure_support.py`.
