@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: Please cite the accompanying CoGraph-DBP manuscript.
+title: 'CoGraph-DBP: Rank Fusion of Complementary Graph Predictors for DNA-Binding Proteins'
+authors:
+  - family-names: Gong
+    given-names: Wentao
+    affiliation: China Agricultural University
+  - family-names: Zhang
+    given-names: Jiaying
+    affiliation: China Agricultural University
+  - family-names: Pang
+    given-names: Huihui
+    affiliation: China Agricultural University
+  - family-names: Li
+    given-names: Jingrui
+    affiliation: China Agricultural University
+  - family-names: Zhang
+    given-names: Feifan
+    affiliation: China Agricultural University
+license: MIT
+keywords:
+  - DNA-binding protein prediction
+  - residue graphs
+  - rank fusion
+
+repository-code: "https://github.com/FFZ-CAU/CoGraph-DBP"

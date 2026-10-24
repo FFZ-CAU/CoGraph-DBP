@@ -1,0 +1,146 @@
+{
+  "method": "CoGraph-DBP",
+  "shared_training": {
+    "seed": 525,
+    "split_seed": 525,
+    "component_analysis_fold": 3,
+    "max_len": 1000,
+    "k": 25,
+    "epochs": 25,
+    "batch_size": 16,
+    "optimizer": "Adam",
+    "learning_rate": 5e-05,
+    "checkpoint_selection": "source-validation MCC"
+  },
+  "paths": {
+    "reference": {
+      "residue_input": "ProtT5 projected from 1024 to 512",
+      "relations": [
+        "source-specific first view",
+        "ESM2 attention; support specified by source set"
+      ],
+      "operators": [
+        "contact GAT",
+        "ESM residual GCN"
+      ],
+      "blocks": 2,
+      "readout": "source-specific mean pooling",
+      "source_settings": {
+        "Train-1698": {
+          "file": "Train-1698_reference.pt",
+          "path": "reference",
+          "source_set": "Train-1698",
+          "variant": "dual_graph",
+          "contact_subdir": "contact",
+          "esm_map_subdir": "map-esm",
+          "contact_graph_mode": "weighted",
+          "esm_graph_mode": "smallest_symmetric_binary",
+          "pooling": "all_padded_positions_mean",
+          "max_len": 1000,
+          "k": 25,
+          "seed": 525,
+          "fold": 3
+        },
+        "Train-2104": {
+          "file": "Train-2104_reference.pt",
+          "path": "reference",
+          "source_set": "Train-2104",
+          "variant": "dual_graph",
+          "contact_subdir": "map",
+          "esm_map_subdir": "map-esm",
+          "contact_graph_mode": "weighted",
+          "esm_graph_mode": "largest_symmetric_weighted",
+          "pooling": "valid_residue_mean",
+          "max_len": 1000,
+          "k": 25,
+          "seed": 525,
+          "fold": 3
+        }
+      }
+    },
+    "structure": {
+      "level": "protein score",
+      "optimizer": "L-BFGS-B with deterministic damped-Newton refinement on the identical convex objective",
+      "route_statistic": "five-fold train-only OOF AUC from all graph-summary features",
+      "route_threshold": 0.75,
+      "anchor_rule": "contact-only when OOF AUC >= 0.75; otherwise sequence-only",
+      "observed_source_routes": {
+        "Train-1698": {
+          "oof_auc": 0.8452266,
+          "anchor": "contact-only"
+        },
+        "Train-2104": {
+          "oof_auc": 0.6296588,
+          "anchor": "sequence-only"
+        }
+      },
+      "attention_stage": {
+        "l2": 0.0001,
+        "clip": 0.25
+      },
+      "contact_stage": {
+        "l2": 0.1,
+        "clip": 0.025
+      }
+    },
+    "topology": {
+      "residue_input": "ProtT5 projected from 1024 to 512",
+      "relations": [
+        "weighted ESM2 contact-regression graph",
+        "directed high-attention PLM graph"
+      ],
+      "operators": [
+        "contact GCNII",
+        "directed attention GAT"
+      ],
+      "update": "identity-centered learnable residual",
+      "readout": "valid-residue mean"
+    },
+    "residue": {
+      "residue_input": "gated 512-channel sum on Train-1698; 256+256-channel concatenation on Train-2104",
+      "anchor_scale_initial_value": -2.0,
+      "relations": [
+        "alternative contact graph",
+        "alternative PLM relation graph"
+      ],
+      "operators": [
+        "reference contact GAT",
+        "reference relation residual GCN"
+      ],
+      "blocks": 2,
+      "readout": "valid-residue mean",
+      "source_settings": {
+        "Train-1698": {
+          "file": "Train-1698_residue.pt",
+          "path": "residue",
+          "source_set": "Train-1698",
+          "variant": "dual_plm_anchor_graph",
+          "contact_subdir": "contact",
+          "esm_map_subdir": "map",
+          "contact_graph_mode": "binary",
+          "esm_graph_mode": "smallest_symmetric_binary",
+          "pooling": "valid_residue_mean",
+          "max_len": 1000,
+          "k": 25,
+          "seed": 525,
+          "fold": 3
+        },
+        "Train-2104": {
+          "file": "Train-2104_residue.pt",
+          "path": "residue",
+          "source_set": "Train-2104",
+          "variant": "dual_plm_concat_graph",
+          "contact_subdir": "contact",
+          "esm_map_subdir": "map",
+          "contact_graph_mode": "binary",
+          "esm_graph_mode": "smallest_symmetric_binary",
+          "pooling": "valid_residue_mean",
+          "max_len": 1000,
+          "k": 25,
+          "seed": 525,
+          "fold": 3
+        }
+      }
+    }
+  }
+}
