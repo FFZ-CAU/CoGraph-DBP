@@ -44,7 +44,8 @@ def load_inputs(row, split_root, esm2_dir, config, residue=False):
         arrays.append(base.pad_2d(esm, config['max_len'], 1280))
     for graph in [contact, relation]:
         graph = base.pad_square(base.normalize_adj(graph.astype(np.float32)), config['max_len'])
-        np.fill_diagonal(graph[:graph_nodes, :graph_nodes], 1.0)
+        diagonal_nodes = config['max_len'] if config['pooling'] == 'all_padded_positions_mean' else graph_nodes
+        np.fill_diagonal(graph[:diagonal_nodes, :diagonal_nodes], 1.0)
         arrays.append(graph)
     return (arrays, length)
 

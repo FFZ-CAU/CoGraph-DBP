@@ -1,7 +1,16 @@
 from __future__ import annotations
 import argparse
 import sys
+import numpy as np
 import base_path as base
+
+class ReferenceDataset(base.ProteinGraphDataset):
+
+    def _load_item_arrays(self, name):
+        prot5, contact, relation, length = super()._load_item_arrays(name)
+        np.fill_diagonal(contact, 1.0)
+        np.fill_diagonal(relation, 1.0)
+        return prot5, contact, relation, length
 
 class ReferenceModel(base.CoGraphModel):
 
@@ -25,7 +34,9 @@ def main() -> None:
     parser.add_argument('--source-set', choices=['Train-1698', 'Train-2104'], required=True)
     args, remaining = parser.parse_known_args()
     pooling = 'all_padded_positions_mean' if args.source_set == 'Train-1698' else 'valid_residue_mean'
-    if args.source_set == 'Train-2104':
+    if args.source_set == 'Train-1698':
+        base.ProteinGraphDataset = ReferenceDataset
+    else:
         base.distance_to_knn_matrix = largest_symmetric_weighted
 
     class ConfiguredReference(ReferenceModel):

@@ -45,6 +45,17 @@ ProtT5 and ESM2 residue arrays have 1024 and 1280 channels, respectively. Relati
 arrays are square matrices aligned to the residue arrays. Graph-summary CSV files
 contain `name` and the 19 columns defined in `training/structure_support.py`.
 Inputs are cropped or padded to 1000 residues with top-k = 25.
+The Train-1698 reference path keeps self-loops and mean pooling over all 1000
+positions. Other neural paths use valid-residue positions.
+ProtT5 relation matrices average the attention heads in encoder layer 24 and retain
+only amino-acid token rows and columns, in the same order as the residue embeddings.
+
+To generate these matrices from local ProtT5-XL-UniRef50 weights, use an empty
+output directory:
+
+```bash
+python training/precompute_plm_relations.py --records data/pkl/Train-DBP.pkl --features data/Train/Train-1698/feature/feature-prot5-xl --model weights/prot_t5_xl_uniref50 --out-dir data/Train/Train-1698/map --device cuda:0
+```
 
 ProtT5 originates from [ProtTrans](https://github.com/agemagician/ProtTrans);
 the ESM2 model is `esm2_t33_650M_UR50D` from

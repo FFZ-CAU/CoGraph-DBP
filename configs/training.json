@@ -39,7 +39,8 @@
           "max_len": 1000,
           "k": 25,
           "seed": 525,
-          "fold": 3
+          "fold": 3,
+          "self_loop_scope": "all_positions"
         },
         "Train-2104": {
           "file": "Train-2104_reference.pt",
@@ -54,7 +55,8 @@
           "max_len": 1000,
           "k": 25,
           "seed": 525,
-          "fold": 3
+          "fold": 3,
+          "self_loop_scope": "valid_residues"
         }
       }
     },
@@ -66,21 +68,21 @@
       "anchor_rule": "contact-only when OOF AUC >= 0.75; otherwise sequence-only",
       "observed_source_routes": {
         "Train-1698": {
-          "oof_auc": 0.8452266,
+          "oof_auc": 0.829450604751245,
           "anchor": "contact-only"
         },
         "Train-2104": {
-          "oof_auc": 0.6296588,
+          "oof_auc": 0.6287405523769161,
           "anchor": "sequence-only"
         }
       },
       "attention_stage": {
         "l2": 0.0001,
-        "clip": 0.25
+        "clip": 0.1
       },
       "contact_stage": {
-        "l2": 0.1,
-        "clip": 0.025
+        "l2": 0.0001,
+        "clip": 0.1
       }
     },
     "topology": {
