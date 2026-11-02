@@ -20,8 +20,13 @@ per process. Score fusion and evaluation run on CPU.
 Training starts from per-protein feature arrays. Benchmark sequences are available
 from [PLM-DBPs](https://github.com/suresh-pokharel/PLM-DBPs) and
 [CNNCaps-DBP](https://github.com/YZYAlex/CNNCaps-DBP).
-The prepared tables, feature arrays and graph-summary CSV files are available
-from the corresponding authors upon request.
+The prepared inputs, trained models, recorded predictions, and complete analysis
+code are available in the [v1.0.0 release](https://github.com/FFZ-CAU/CoGraph-DBP/releases/tag/v1.0.0).
+Download `CoGraph_DBP_Reproducibility.zip`, `CoGraph_DBP_Models.zip`,
+`CoGraph_DBP_Records.zip`, and every `CoGraph_DBP_Inputs_*.zip` file. Extract all
+archives into a new directory. Each input ZIP is independently extractable.
+The release package includes `README.md` and `DATA_LAYOUT.md` with the commands
+for replaying the manuscript tables, statistical analyses, and figures.
 
 ```text
 data/
